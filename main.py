@@ -1,9 +1,9 @@
-import os
 import random
 import time
 
 from aptos_sdk.account import Account
 from aptos_sdk.client import RestClient, ClientConfig
+
 from galaxy import sign_in_apt, get_txn_data
 from logger import setup_gay_logger
 from config import MIN_SLEEP, MAX_SLEEP

@@ -1,11 +1,13 @@
-import json
 from datetime import timedelta, datetime
 from time import time
-from pyuseragents import random as random_user_agent
-import requests
-from config import SMART_PROXY_URL, CAPCHA_API_KEY
 import uuid
+
+import json
+import requests
+from pyuseragents import random as random_user_agent
 from twocaptcha import TwoCaptcha
+
+from config import SMART_PROXY_URL, CAPCHA_API_KEY
 
 galaxy_query = 'https://graphigo.prd.galaxy.eco/query'
 
