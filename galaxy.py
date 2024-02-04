@@ -88,6 +88,7 @@ def sign_in_apt(logger, account):
 
 def get_captcha_output(logger):
     try:
+        logger.info("Starting solve captcha")
         now_ms = int(datetime.now().timestamp() * 1000)
         result = solver.geetest_v4(captcha_id='244bcb8b9846215df5af4c624a750db4',
                                    url=f'https://gcaptcha4.geetest.com/load?captcha_id=244bcb8b9846215df5af4c624a750db4&'
@@ -156,29 +157,33 @@ def get_txn_data(logger, address, token):
 
         if response.status_code == 200:
             response_data = response.json()
-            if 'data' in response_data and 'prepareParticipate' in response_data['data'] and \
-                    response_data['data']['prepareParticipate']['allow']:
-
-                verify_ids = response_data['data']['prepareParticipate']['mintFuncInfo'].get('verifyIDs')
-                signature = response_data['data']['prepareParticipate'].get('signature')
-                signature_expired_at = response_data['data']['prepareParticipate']['aptosTxResp'].get('signatureExpiredAt')
-
-                logger.info(f"Transaction data gathered")
-                return verify_ids, signature, signature_expired_at
+            print(json.dumps(response_data, indent=4))
+            if 'data' in response_data and 'prepareParticipate' in response_data['data']:
+                if response_data['data']['prepareParticipate']['allow']:
+                    verify_ids = response_data['data']['prepareParticipate']['mintFuncInfo'].get('verifyIDs')
+                    signature = response_data['data']['prepareParticipate'].get('signature')
+                    signature_expired_at = response_data['data']['prepareParticipate']['aptosTxResp'].get(
+                        'signatureExpiredAt')
+                    logger.info("Transaction data gathered successfully.")
+                    return verify_ids, signature, signature_expired_at
+                else:
+                    disallow_reason = response_data['data']['prepareParticipate'].get('disallowReason', '')
+                    if "Exceed limit, available claim count is 0" in disallow_reason:
+                        logger.info(f"The OAT is already claimed or address is not eligible. "
+                                    f"\n(in both cases responses are the same)")
+                        return None
+                    else:
+                        logger.error(f"Transaction preparation failed due to: {disallow_reason}")
+                        return None
             else:
-                logger.error(f"Transaction preparation failed."
-                             f"\nResponse code: {response.status_code}."
-                             f"\nResponse content: {response.text}")
+                logger.error("Transaction preparation failed. Invalid response format.")
                 return None
         else:
             logger.error(f"{address} Request failed."
                          f"\nResponse code: {response.status_code}."
                          f"\nResponse content: {response.text}")
             return None
-
     except Exception as e:
         logger.critical(f"Exception occurred."
                         f"\nException: {e}")
-        return None
-
-
+    return None
