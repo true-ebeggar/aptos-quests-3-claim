@@ -164,13 +164,14 @@ def get_txn_data(logger, address, token):
                     signature = response_data['data']['prepareParticipate'].get('signature')
                     signature_expired_at = response_data['data']['prepareParticipate']['aptosTxResp'].get(
                         'signatureExpiredAt')
-                    logger.info("Transaction data gathered successfully.")
-                    return verify_ids, signature, signature_expired_at
+                    if verify_ids:
+                        verify_id = verify_ids[0]
+                        logger.info("Transaction data gathered successfully.")
+                        return verify_id, signature, signature_expired_at
                 else:
                     disallow_reason = response_data['data']['prepareParticipate'].get('disallowReason', '')
                     if "Exceed limit, available claim count is 0" in disallow_reason:
-                        logger.info(f"The OAT is already claimed or address is not eligible. "
-                                    f"\n(in both cases responses are the same)")
+                        logger.info(f"OAT is already claimed or address is not eligible (in both cases responses the same)")
                         return None
                     else:
                         logger.error(f"Transaction preparation failed due to: {disallow_reason}")

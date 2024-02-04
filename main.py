@@ -33,7 +33,7 @@ def claim(logger, account, verify_ids, signature, signature_expired_at):
         "function": "0xe7c7bb0e53fc6fb86aa7464645fbac96b96716463b4e2269c62945c135aa26fd::oat::claim",
         "type_arguments": [],
         "arguments": [
-            "0x92d2f7ad00630e4dfffcca01bee12c84edf004720347fb1fd57016d2cc8d3f8",
+            "0x092d2f7ad00630e4dfffcca01bee12c84edf004720347fb1fd57016d2cc8d3f8",
             str(verify_ids),
             "0",
             "Quest Three - Aptos Ecosystem Fundamentals",
@@ -77,7 +77,7 @@ def main():
                 with open(keys_file, 'w') as file:
                     file.writelines(remaining_keys)
                 sleep = random.randint(MIN_SLEEP, MAX_SLEEP)
-                logger.info(f"Sleep for {sleep} before next wallet")
+                logger.info(f"Sleep for {sleep}s before next wallet")
                 time.sleep(sleep)
             else:
                 continue
