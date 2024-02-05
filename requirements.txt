@@ -1,5 +1,5 @@
 2captcha-python
-aptos-sdk_0.6.3
+aptos-sdk==0.6.3
 json
 requests
 pyuseragents
