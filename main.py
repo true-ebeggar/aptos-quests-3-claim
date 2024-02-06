@@ -65,8 +65,10 @@ def main():
         logger = setup_gay_logger(str(address))
 
         token = sign_in_apt(logger, account)
-        result = get_txn_data(logger, address, token)
-
+        try:
+            result = get_txn_data(logger, address, token)
+        except Exception:
+            continue
         if result is not None:
             verify_ids, signature, signature_expired_at = result
             if claim(logger, account, verify_ids, signature, signature_expired_at) == 0:

@@ -2,4 +2,4 @@ MIN_SLEEP = 5
 MAX_SLEEP = 10
 
 SMART_PROXY_URL = 'http://gate.smartproxy.com:7000'
-CAPCHA_API_KEY = '3de92975f5ef9c3702cad776eb56a303'
+CAPCHA_API_KEY = ''
