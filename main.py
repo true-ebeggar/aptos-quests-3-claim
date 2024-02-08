@@ -36,7 +36,7 @@ def claim(logger, account, verify_ids, signature, signature_expired_at):
             "0x092d2f7ad00630e4dfffcca01bee12c84edf004720347fb1fd57016d2cc8d3f8",
             str(verify_ids),
             "0",
-            "Quest Three - Aptos Ecosystem Fundamentals",
+            "[CLAIM ONLY] Quest Three - Aptos Ecosystem Fundamentals",
             "1",
             str(signature_expired_at),
             str(signature)
